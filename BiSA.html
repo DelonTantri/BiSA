@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BiSA — App Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#00529C; --blue-2:#1E40AF; --amber:#F59E0B; --bg:#F8FAFC; --surface:#FFFFFF;
+  --border:#E2E8F0; --text:#0F172A; --text-2:#64748B; --shadow:0 2px 8px rgba(0,0,0,.06);
+  --green:#10B981; --red:#EF4444;
+  --radius:16px;
+}
+[data-theme="dark"]{
+  --blue:#38BDF8; --blue-2:#38BDF8; --amber:#FBBF24; --bg:#0F172A; --surface:#1E293B;
+  --border:#475569; --text:#F8FAFC; --text-2:#94A3B8; --shadow:0 2px 10px rgba(0,0,0,.4);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --blue:#38BDF8; --blue-2:#38BDF8; --amber:#FBBF24; --bg:#0F172A; --surface:#1E293B;
+    --border:#475569; --text:#F8FAFC; --text-2:#94A3B8; --shadow:0 2px 10px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box;}
+*, *::before, *::after{transition:background-color .25s ease, border-color .25s ease, color .25s ease, box-shadow .25s ease;}
+@media (prefers-reduced-motion: reduce){ *, *::before, *::after{transition:none !important;} }
+html,body{margin:0;height:100%;}
+body{
+  font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text);
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  -webkit-font-smoothing:antialiased;
+}
+svg{display:inline-block; flex-shrink:0;}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px;}
+.controls{
+  display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--border);
+}
+.tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.tab{
+  font-size:12.5px; font-weight:600; padding:8px 12px; border-radius:999px; border:1px solid var(--border);
+  background:var(--surface); color:var(--text-2); cursor:pointer; white-space:nowrap;
+}
+.tab.active{background:var(--blue); color:#fff; border-color:var(--blue);}
+.theme-btn{
+  border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px;
+  width:38px; height:38px; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+}
+.phone{
+  width:100%; max-width:380px; margin:0 auto; background:var(--surface); border:1px solid var(--border);
+  border-radius:28px; overflow:hidden; box-shadow:var(--shadow); min-height:720px;
+}
+.screen{display:none; flex-direction:column; height:720px;}
+.screen.active{display:flex;}
+.topbar{
+  display:flex; align-items:center; justify-content:space-between; padding:16px 16px 12px;
+  border-bottom:1px solid var(--border); gap:10px;
+}
+.greet{font-size:15px; font-weight:700; flex:1;}
+.icon-row{display:flex; gap:10px; align-items:center;}
+.icon-btn{
+  width:36px; height:36px; border-radius:999px; background:var(--bg); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center; color:var(--text); position:relative; cursor:pointer; flex-shrink:0;
+}
+.icon-btn svg{width:16px;height:16px;}
+.dot{position:absolute; top:-1px; right:-1px; width:8px; height:8px; border-radius:50%; background:var(--red); border:2px solid var(--surface);}
+.role-toggle{
+  display:flex; background:var(--bg); border:1px solid var(--border); border-radius:999px; padding:3px; font-size:11px; font-weight:700; margin-top:10px;
+}
+.role-toggle span{padding:6px 10px; border-radius:999px; color:var(--text-2);}
+.role-toggle span.on{background:var(--blue); color:#fff;}
+.content{flex:1; overflow-y:auto; padding:14px 16px 20px;}
+h3.section{font-size:13px; font-weight:700; margin:18px 0 10px;}
+h3.section:first-child{margin-top:2px;}
+.hero-cta{
+  background:linear-gradient(135deg, var(--blue), var(--blue-2)); color:#fff; border-radius:var(--radius);
+  padding:18px; margin-bottom:6px;
+}
+.hero-cta .big{font-size:15px; font-weight:700; margin-bottom:12px;}
+.cat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:10px;}
+.cat{
+  background:rgba(255,255,255,.15); border-radius:12px; padding:10px 4px; text-align:center; font-size:10.5px; font-weight:600;
+}
+.cat .ic{display:flex; justify-content:center; margin-bottom:4px;}
+.cat .ic svg{width:20px;height:20px;}
+.hcards{display:flex; gap:10px; overflow-x:auto; padding:4px 0 8px; margin:0 -2px;}
+.hcard{
+  min-width:170px; background:var(--bg); border:1px solid var(--border); border-left:3px solid var(--border); border-radius:14px; padding:12px; flex-shrink:0;
+}
+.hcard .cat-name{font-size:12.5px; font-weight:700;}
+.pill{
+  display:inline-block; font-size:9.5px; font-weight:700; padding:3px 8px; border-radius:999px; margin-top:6px;
+}
+.pill.open{background:color-mix(in srgb, var(--blue) 15%, transparent); color:var(--blue);}
+.pill.progress{background:color-mix(in srgb, var(--amber) 18%, transparent); color:var(--amber);}
+.pill.delivered{background:color-mix(in srgb, var(--green) 18%, transparent); color:var(--green);}
+.pill.express{background:color-mix(in srgb, var(--red) 15%, transparent); color:var(--red);}
+.feed-card{
+  border:1px solid var(--border); border-left:3px solid var(--border); border-radius:14px; padding:13px; margin-bottom:10px; background:var(--surface);
+}
+.feed-card.st-open, .hcard.st-open{border-left-color:var(--blue);}
+.feed-card.st-progress, .hcard.st-progress{border-left-color:var(--amber);}
+.feed-card.st-delivered, .hcard.st-delivered{border-left-color:var(--green);}
+.feed-card.st-express, .hcard.st-express{border-left-color:var(--red);}
+.feed-top{display:flex; justify-content:space-between; align-items:flex-start;}
+.route{font-size:12.5px; color:var(--text-2); margin:8px 0;}
+.feed-bottom{display:flex; justify-content:space-between; align-items:center; font-size:12px;}
+.reward{font-weight:800; color:var(--green); font-variant-numeric:tabular-nums;}
+.avail-card{
+  background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:14px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;
+}
+.avail-loc{font-size:11px; color:var(--text-2); margin-top:2px; display:flex; align-items:center; gap:4px;}
+.avail-loc svg{width:13px;height:13px;}
+.switch{width:42px; height:24px; border-radius:999px; background:var(--border); position:relative; flex-shrink:0; cursor:pointer;}
+.switch.on{background:var(--green);}
+.switch::after{content:''; position:absolute; width:18px; height:18px; border-radius:50%; background:#fff; top:3px; left:3px; transition:left .2s;}
+.switch.on::after{left:21px;}
+.progressbar{height:5px; background:var(--border); border-radius:999px; overflow:hidden; margin-bottom:14px;}
+.progressbar > div{height:100%; width:50%; background:var(--blue);}
+.field{margin-bottom:14px;}
+.field label{font-size:12px; font-weight:600; color:var(--text-2); display:block; margin-bottom:6px;}
+.field textarea, .field input, .field select{
+  width:100%; border:1px solid var(--border); background:var(--bg); border-radius:10px; padding:10px 12px; font-family:inherit; font-size:13px; color:var(--text); font-variant-numeric:tabular-nums;
+}
+.field textarea{resize:none; height:56px;}
+.toggle-row{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; font-weight:600;}
+.radio-cards{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.radio-card{border:1.5px solid var(--border); border-radius:12px; padding:10px; font-size:11.5px; cursor:pointer;}
+.radio-card.sel{border-color:var(--blue); background:color-mix(in srgb, var(--blue) 8%, transparent);}
+.radio-card b{display:block; font-size:12.5px; margin-bottom:2px;}
+.breakdown{border:1px solid var(--border); border-radius:12px; padding:12px; font-size:12px;}
+.brow{display:flex; justify-content:space-between; padding:5px 0; font-variant-numeric:tabular-nums;}
+.brow.total{border-top:1px solid var(--border); margin-top:6px; padding-top:8px; font-weight:800; font-size:13px;}
+.timeline{display:flex; justify-content:space-between; margin-bottom:16px; position:relative;}
+.timeline::before{content:''; position:absolute; top:9px; left:5%; right:5%; height:2px; background:var(--border); z-index:0;}
+.tl-step{flex:1; text-align:center; position:relative; z-index:1;}
+.tl-dot{width:18px; height:18px; border-radius:50%; background:var(--border); margin:0 auto 5px; display:flex; align-items:center; justify-content:center;}
+.tl-step.done .tl-dot{background:var(--green);}
+.tl-step.now .tl-dot{background:var(--blue);}
+.tl-label{font-size:9px; font-weight:600; color:var(--text-2);}
+.action-card{border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; font-size:12.5px; font-weight:600;}
+.btn{background:var(--blue); color:#fff; border:none; border-radius:10px; padding:9px 14px; font-size:11.5px; font-weight:700; cursor:pointer;}
+.btn.ghost{background:transparent; border:1px solid var(--border); color:var(--text);}
+.chat-banner{background:var(--bg); border-radius:10px; padding:8px 10px; font-size:10.5px; color:var(--text-2); margin-bottom:12px; display:flex; align-items:center; gap:5px;}
+.chat-banner svg{width:13px;height:13px; flex-shrink:0;}
+.bubble{max-width:75%; padding:9px 12px; border-radius:14px; font-size:12.5px; margin-bottom:8px;}
+.bubble.them{background:var(--bg); border:1px solid var(--border);}
+.bubble.me{background:var(--blue); color:#fff; margin-left:auto;}
+.shortcuts{display:flex; gap:9px; flex-wrap:wrap; margin-top:10px;}
+.chip{font-size:10.5px; font-weight:600; border:1px solid var(--border); border-radius:999px; padding:7px 11px; display:inline-flex; align-items:center; gap:4px; cursor:pointer;}
+.chip svg{width:13px;height:13px;}
+.profile-photo{width:64px; height:64px; border-radius:50%; background:var(--blue); margin:0 auto 8px;}
+.stars{color:var(--amber); font-size:13px; display:flex; align-items:center; justify-content:center; gap:2px;}
+.stars svg{width:14px;height:14px;}
+.stars span{margin-left:4px; color:var(--text-2); font-size:11.5px;}
+.settings-row{display:flex; justify-content:space-between; align-items:center; padding:13px 0; border-bottom:1px solid var(--border); font-size:12.5px; font-weight:600; cursor:pointer;}
+.theme-opts{display:flex; gap:8px; margin-top:8px;}
+.theme-opt{flex:1; display:flex; align-items:center; justify-content:center; gap:4px; font-size:11px; font-weight:600; padding:9px 4px; border-radius:10px; border:1px solid var(--border); cursor:pointer;}
+.theme-opt svg{width:13px;height:13px;}
+.theme-opt.sel{border-color:var(--blue); background:color-mix(in srgb, var(--blue) 8%, transparent); color:var(--blue);}
+.verify-card{display:flex; gap:10px; border:1px solid var(--border); border-radius:12px; padding:10px; margin-bottom:10px;}
+.verify-photo{width:52px; height:52px; border-radius:8px; background:var(--border); flex-shrink:0;}
+.resolution{display:flex; flex-direction:column; gap:10px; margin-top:10px;}
+.bottomnav{display:flex; border-top:1px solid var(--border); padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));}
+.navitem{flex:1; text-align:center; font-size:9.5px; color:var(--text-2); font-weight:600; padding:4px 2px; cursor:pointer; border-radius:10px;}
+.navitem .ic{display:flex; justify-content:center; margin-bottom:2px;}
+.navitem .ic svg{width:18px;height:18px;}
+.navitem.on{color:var(--blue);}
+.fab{width:40px; height:40px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; margin:-14px auto 0; cursor:pointer;}
+.empty-wrap{display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; text-align:center; padding:40px 26px;}
+.empty-illustration{width:92px; height:92px; border-radius:50%; border:2px dashed var(--border); display:flex; align-items:center; justify-content:center; color:var(--text-2); margin-bottom:18px;}
+.empty-wrap p{font-size:12px; color:var(--text-2); margin-top:6px; max-width:220px; line-height:1.5;}
+/* Custom scrollbars: replace native OS scrollbar (with arrow buttons) so it matches the theme */
+.hcards, .filter-row, .shortcuts, .content{
+  scrollbar-width:thin;
+  scrollbar-color:var(--border) transparent;
+}
+.hcards::-webkit-scrollbar, .filter-row::-webkit-scrollbar, .shortcuts::-webkit-scrollbar, .content::-webkit-scrollbar{
+  height:5px; width:5px;
+}
+.hcards::-webkit-scrollbar-track, .filter-row::-webkit-scrollbar-track, .shortcuts::-webkit-scrollbar-track, .content::-webkit-scrollbar-track{
+  background:transparent;
+}
+.hcards::-webkit-scrollbar-thumb, .filter-row::-webkit-scrollbar-thumb, .shortcuts::-webkit-scrollbar-thumb, .content::-webkit-scrollbar-thumb{
+  background:var(--border); border-radius:999px;
+}
+.hcards::-webkit-scrollbar-button, .filter-row::-webkit-scrollbar-button, .shortcuts::-webkit-scrollbar-button, .content::-webkit-scrollbar-button{
+  display:none; width:0; height:0;
+}
+.filter-row{display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; margin-bottom:14px;}
+.filter-chip{font-size:11px; font-weight:600; padding:7px 13px; border-radius:999px; border:1px solid var(--border); color:var(--text-2); white-space:nowrap; cursor:pointer; flex-shrink:0;}
+.filter-chip.active{background:var(--blue); color:#fff; border-color:var(--blue);}
+.balance-card{background:linear-gradient(135deg, var(--blue), var(--blue-2)); color:#fff; border-radius:var(--radius); padding:20px; margin-bottom:6px;}
+.balance-card .label{font-size:11px; opacity:.85;}
+.balance-card .amount{font-size:24px; font-weight:800; margin:6px 0 14px; font-variant-numeric:tabular-nums;}
+.balance-actions{display:flex; gap:10px;}
+.balance-actions button{flex:1; background:rgba(255,255,255,.18); color:#fff; border:none; border-radius:10px; padding:9px; font-size:11.5px; font-weight:700; cursor:pointer;}
+.tx-row{display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid var(--border); cursor:pointer;}
+.tx-left{display:flex; align-items:center; gap:10px;}
+.tx-icon{width:34px; height:34px; border-radius:50%; background:var(--bg); display:flex; align-items:center; justify-content:center; color:var(--text-2); flex-shrink:0;}
+.tx-name{font-size:12.5px; font-weight:600;}
+.tx-date{font-size:10.5px; color:var(--text-2); margin-top:2px;}
+.tx-amount{font-weight:800; font-size:12.5px; font-variant-numeric:tabular-nums;}
+.tx-amount.in{color:var(--green);}
+.tx-amount.out{color:var(--red);}
+.upload-card{border:1.5px dashed var(--border); border-radius:14px; padding:16px; text-align:center; margin-bottom:14px;}
+.upload-card .up-icon{width:44px;height:44px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:var(--text-2);}
+.upload-card b{font-size:12.5px; display:block; margin-bottom:4px;}
+.upload-card p{font-size:11px; color:var(--text-2); margin-bottom:10px;}
+.status-badge{display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; padding:6px 12px; border-radius:999px; margin-bottom:16px;}
+.status-badge svg{width:13px;height:13px;}
+.status-badge.pending{background:color-mix(in srgb, var(--amber) 18%, transparent); color:var(--amber);}
+.pay-method{border:1.5px solid var(--border); border-radius:12px; padding:12px 14px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;}
+.pay-method.sel{border-color:var(--blue); background:color-mix(in srgb, var(--blue) 8%, transparent);}
+.pay-left{display:flex; align-items:center; gap:10px;}
+.pay-icon{width:36px;height:36px;border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--text-2);flex-shrink:0;}
+.pay-name{font-size:12.5px;font-weight:700;}
+.pay-sub{font-size:10.5px;color:var(--text-2);margin-top:2px;}
+.pay-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;position:relative;}
+.pay-method.sel .pay-radio{border-color:var(--blue);}
+.pay-method.sel .pay-radio::after{content:'';position:absolute;inset:3px;background:var(--blue);border-radius:50%;}
+/* Focus states: WCAG AA visible keyboard focus on every interactive element */
+button, .tab, .cat, .radio-card, .chip, .navitem, .theme-opt, .icon-btn, .theme-btn, .switch, .fab, .hcard, .feed-card, .settings-row, .filter-chip, .tx-row{
+  outline:none;
+}
+button:focus-visible, .tab:focus-visible, .cat:focus-visible, .radio-card:focus-visible, .chip:focus-visible,
+.navitem:focus-visible, .theme-opt:focus-visible, .icon-btn:focus-visible, .theme-btn:focus-visible,
+.switch:focus-visible, .fab:focus-visible, .hcard:focus-visible, .feed-card:focus-visible, .settings-row:focus-visible,
+.filter-chip:focus-visible, .tx-row:focus-visible{
+  outline:2px solid var(--blue); outline-offset:2px; border-radius:inherit;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="controls">
+    <div class="tabs" id="tabs"></div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()"></button>
+  </div>
+  <div class="phone" id="phone"></div>
+</div>
+
+<script>
+const PATHS = {
+  bell:'<path d="M6 8a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 12 6 8z"/><path d="M10 18a2 2 0 0 0 4 0"/>',
+  cart:'<path d="M3 4h2l1.7 9.2a2 2 0 0 0 2 1.8h7a2 2 0 0 0 2-1.6L19 8H6"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/>',
+  package:'<path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/>',
+  book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2.5z"/>',
+  wrench:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L4 16.7l2.3 2.3 5.3-5.3a4 4 0 0 0 5.1-5.4l-2.6 2.6-2-2z"/>',
+  pin:'<path d="M12 21s-6.5-5.9-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.1-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.2"/>',
+  camera:'<path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/>',
+  refresh:'<path d="M4 4v5h5"/><path d="M20 20v-5h-5"/><path d="M5.5 9a7 7 0 0 1 12-3.5L20 8"/><path d="M18.5 15a7 7 0 0 1-12 3.5L4 16"/>',
+  home:'<path d="M4 11.5L12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-6h2v6h4a1 1 0 0 0 1-1v-9"/>',
+  list:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v2h6V3"/><path d="M8 11h8M8 15h8"/>',
+  wallet:'<path d="M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M16 12h3v3h-3a1.5 1.5 0 0 1 0-3z"/>',
+  user:'<circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/>',
+  check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>',
+  moon:'<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>',
+  close:'<path d="M5 5l14 14M19 5L5 19"/>',
+  chat:'<path d="M4 5h16v10H8l-4 4z"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
+  back:'<path d="M15 5l-7 7 7 7"/>',
+  qr:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="18" width="3" height="3"/><rect x="14" y="19" width="2" height="2"/><rect x="19" y="14" width="2" height="2"/>',
+  bank:'<path d="M3 10l9-6 9 6"/><path d="M5 10v9M9 10v9M15 10v9M19 10v9"/><path d="M3 19h18"/>'
+};
+function ic(name, size){
+  size = size || 18;
+  if(name==='star'){
+    return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.6 5.9 20.6l1.3-6.6L2.3 9.4l6.6-.8z"/></svg>';
+  }
+  if(name==='system'){
+    return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>';
+  }
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+PATHS[name]+'</svg>';
+}
+
+const screens = [
+  {id:'req-home', label:'Requester Home'},
+  {id:'partner-home', label:'Partner Home'},
+  {id:'create', label:'Create Request'},
+  {id:'payment', label:'Payment'},
+  {id:'active', label:'Task & Chat'},
+  {id:'my-requests', label:'My Requests'},
+  {id:'tasks', label:'Tasks'},
+  {id:'wallet', label:'Wallet'},
+  {id:'profile', label:'Profile'},
+  {id:'verify-ktm', label:'Verify KTM'},
+  {id:'admin', label:'Admin'},
+  {id:'empty', label:'Empty State'},
+  {id:'timeout', label:'Offer Timeout'},
+];
+
+const bodies = {
+'req-home': `
+  <div class="topbar">
+    <div><div class="greet">Hi, Delon</div>
+      <div class="role-toggle"><span class="on">Requester</span><span>Partner</span></div>
+    </div>
+    <div class="icon-row"><div class="icon-btn" tabindex="0">${ic('bell',16)}<span class="dot"></span></div></div>
+  </div>
+  <div class="content">
+    <div class="hero-cta">
+      <div class="big">+ Buat Permintaan Baru</div>
+      <div class="cat-row">
+        <div class="cat" tabindex="0"><span class="ic">${ic('cart',20)}</span>Beli</div>
+        <div class="cat" tabindex="0"><span class="ic">${ic('package',20)}</span>Antar</div>
+        <div class="cat" tabindex="0"><span class="ic">${ic('book',20)}</span>Akademik</div>
+        <div class="cat" tabindex="0"><span class="ic">${ic('wrench',20)}</span>Lainnya</div>
+      </div>
+    </div>
+    <h3 class="section">Permintaan Aktif Saya</h3>
+    <div class="hcards">
+      <div class="hcard st-progress" tabindex="0"><div class="cat-name">Print Tugas</div><span class="pill progress">IN PROGRESS</span></div>
+      <div class="hcard st-open" tabindex="0"><div class="cat-name">Beli Makan Siang</div><span class="pill open">OPEN</span></div>
+      <div class="hcard st-delivered" tabindex="0"><div class="cat-name">Ambil Paket</div><span class="pill delivered">DELIVERED</span></div>
+    </div>
+    <h3 class="section">Permintaan Sekitar Kampus</h3>
+    <div class="feed-card st-express" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Beli Kopi — Beehive Canteen</b><span class="pill express">Express</span></div>
+      <div class="route">Beehive Canteen → Anggrek Lt. 6</div>
+      <div class="feed-bottom"><span class="reward">Rp 7.000</span><span style="color:var(--text-2)">Standard fee: Rp 1.000</span></div>
+    </div>
+    <div class="feed-card st-open" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Print 20 Halaman</b><span class="pill open">Standard</span></div>
+      <div class="route">Anggrek Lt. 3 → Syahdan Lt. 2</div>
+      <div class="feed-bottom"><span class="reward">Rp 5.000</span><span style="color:var(--text-2)">15 menit lalu</span></div>
+    </div>
+  </div>
+  <div class="bottomnav">
+    <div class="navitem on" tabindex="0"><span class="ic">${ic('home',18)}</span>Home</div>
+    <div class="navitem" tabindex="0" onclick="setScreen('my-requests')"><span class="ic">${ic('list',18)}</span>Requests</div>
+    <div><div class="fab" tabindex="0">${ic('plus',20)}</div></div>
+    <div class="navitem" tabindex="0" onclick="setScreen('wallet')"><span class="ic">${ic('wallet',18)}</span>Wallet</div>
+    <div class="navitem" tabindex="0" onclick="setScreen('profile')"><span class="ic">${ic('user',18)}</span>Profile</div>
+  </div>`,
+
+'partner-home': `
+  <div class="topbar">
+    <div><div class="greet">Hi, Delon</div>
+      <div class="role-toggle"><span>Requester</span><span class="on">Partner</span></div>
+    </div>
+    <div class="icon-row"><div class="icon-btn" tabindex="0">${ic('bell',16)}<span class="dot"></span></div></div>
+  </div>
+  <div class="content">
+    <div class="avail-card">
+      <div><b style="font-size:13px">Menerima Tugas</b><div class="avail-loc">${ic('pin',13)}Sekitar Kampus Anggrek</div></div>
+      <div class="switch on" tabindex="0"></div>
+    </div>
+    <h3 class="section">Tugas Aktif</h3>
+    <div class="feed-card st-progress" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Antar Dokumen</b><span class="pill progress">In Progress</span></div>
+      <div class="route">Anggrek Lobby → Syahdan Lt. 4</div>
+      <div class="feed-bottom"><span class="reward">Earn Rp 7.000</span><button class="btn" onclick="setScreen('active')">Buka Checklist</button></div>
+    </div>
+    <h3 class="section">Tugas di Sekitarmu</h3>
+    <div class="feed-card st-express" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Beli Snack</b><span class="pill express">Express</span></div>
+      <div class="route">500m away · Anggrek → Kijang</div>
+      <div class="feed-bottom"><span class="reward">Earn Rp 6.000</span><span style="color:var(--red);font-weight:700">Butuh 30 menit</span></div>
+    </div>
+    <div class="feed-card st-open" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Print Tugas</b><span class="pill open">Standard</span></div>
+      <div class="route">750m away · Syahdan → Anggrek</div>
+      <div class="feed-bottom"><span class="reward">Earn Rp 4.000</span><span style="color:var(--text-2)">Butuh 2 jam</span></div>
+    </div>
+  </div>
+  <div class="bottomnav">
+    <div class="navitem on" tabindex="0"><span class="ic">${ic('home',18)}</span>Home</div>
+    <div class="navitem" tabindex="0" onclick="setScreen('tasks')"><span class="ic">${ic('check',18)}</span>Tasks</div>
+    <div class="navitem" tabindex="0" onclick="setScreen('wallet')"><span class="ic">${ic('wallet',18)}</span>Wallet</div>
+    <div class="navitem" tabindex="0" onclick="setScreen('profile')"><span class="ic">${ic('user',18)}</span>Profile</div>
+  </div>`,
+
+'create': `
+  <div class="topbar"><div><div class="greet">Buat Permintaan</div><div style="font-size:11px;color:var(--text-2)">Step 2 dari 4 — Detail Tugas</div></div></div>
+  <div class="content">
+    <div class="progressbar"><div></div></div>
+    <div class="field"><label>Daftar Barang</label><textarea>2x Kopi Susu, 1x Roti Bakar Coklat</textarea>
+      <div class="toggle-row" style="margin-top:8px"><span>Izinkan Substitusi</span><div class="switch on" tabindex="0"></div></div>
+    </div>
+    <div class="field"><label>Lokasi Merchant</label><input placeholder="Tulis nama & lokasi merchant, mis. Indomaret Anggrek"></div>
+    <div class="field"><label>Maks. Budget (maks Rp 200.000)</label><input value="Rp 35.000"></div>
+    <div class="field"><label>Lokasi Antar</label><input value="Anggrek Lt. 7, Lab Wing"></div>
+    <div class="field"><label>Kecepatan Layanan</label>
+      <div class="radio-cards">
+        <div class="radio-card sel" tabindex="0"><b>Standard</b>Harga normal</div>
+        <div class="radio-card" tabindex="0"><b>Express</b>+Rp 2.000 prioritas</div>
+      </div>
+    </div>
+    <div class="breakdown">
+      <div class="brow"><span>Item</span><span>Rp 35.000</span></div>
+      <div class="brow"><span>Partner Reward</span><span>Rp 7.000</span></div>
+      <div class="brow"><span>Biaya Platform</span><span>Rp 1.000</span></div>
+      <div class="brow total"><span>Total Terkunci</span><span>Rp 43.000</span></div>
+    </div>
+    <div class="field" style="margin-top:14px"><label>Kirim Ke</label>
+      <div class="radio-cards">
+        <div class="radio-card sel" tabindex="0"><b>Broadcast</b>Ke partner terdekat</div>
+        <div class="radio-card" tabindex="0"><b>Direct Offer</b>Partner favorit · 5 menit</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottomnav"><div style="flex:1;padding:0 8px"><button class="btn" style="width:100%;padding:12px" onclick="setScreen('payment')">Lanjut →</button></div></div>`,
+
+'payment': `
+  <div class="topbar"><div class="icon-btn" tabindex="0" onclick="setScreen('create')">${ic('back',16)}</div><div class="greet">Pembayaran</div><div style="width:36px"></div></div>
+  <div class="content">
+    <div style="font-size:11px;color:var(--text-2);margin-bottom:8px">Step 3 dari 4 — Metode Pembayaran</div>
+    <div class="progressbar"><div style="width:75%"></div></div>
+    <div class="breakdown" style="margin-bottom:18px">
+      <div class="brow"><span>Item</span><span>Rp 35.000</span></div>
+      <div class="brow"><span>Partner Reward</span><span>Rp 7.000</span></div>
+      <div class="brow"><span>Biaya Platform</span><span>Rp 1.000</span></div>
+      <div class="brow total"><span>Total Tagihan</span><span>Rp 43.000</span></div>
+    </div>
+    <h3 class="section" style="margin-top:0">Pilih Metode Pembayaran</h3>
+    <div class="pay-method sel" tabindex="0">
+      <div class="pay-left"><div class="pay-icon">${ic('wallet',18)}</div><div><div class="pay-name">Saldo BiSA</div><div class="pay-sub">Saldo cukup — Rp 128.500</div></div></div>
+      <div class="pay-radio"></div>
+    </div>
+    <div class="pay-method" tabindex="0">
+      <div class="pay-left"><div class="pay-icon">${ic('qr',18)}</div><div><div class="pay-name">QRIS</div><div class="pay-sub">Scan & bayar instan</div></div></div>
+      <div class="pay-radio"></div>
+    </div>
+    <div class="pay-method" tabindex="0">
+      <div class="pay-left"><div class="pay-icon">${ic('bank',18)}</div><div><div class="pay-name">Transfer Bank / VA</div><div class="pay-sub">Diproses 1-10 menit</div></div></div>
+      <div class="pay-radio"></div>
+    </div>
+    <p style="font-size:10.5px;color:var(--text-2);margin-top:10px;line-height:1.5">Kalau bayar pakai QRIS atau Transfer Bank/VA, permintaan akan aktif setelah pembayaran dikonfirmasi.</p>
+  </div>
+  <div class="bottomnav"><div style="flex:1;padding:0 8px"><button class="btn" style="width:100%;padding:12px" onclick="setScreen('req-home')">Bayar & Kirim Permintaan</button></div></div>`,
+
+'active': `
+  <div class="topbar"><div class="greet">Antar Dokumen</div><div class="icon-btn" tabindex="0" onclick="setScreen('partner-home')">${ic('close',16)}</div></div>
+  <div class="content">
+    <div class="timeline">
+      <div class="tl-step done"><div class="tl-dot"></div><div class="tl-label">Open</div></div>
+      <div class="tl-step done"><div class="tl-dot"></div><div class="tl-label">Accepted</div></div>
+      <div class="tl-step now"><div class="tl-dot"></div><div class="tl-label">In Progress</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-label">Delivered</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-label">Completed</div></div>
+    </div>
+    <div class="action-card">Upload Foto Bukti <button class="btn ghost">Unggah</button></div>
+    <div class="action-card">Bayar via QRIS Merchant <button class="btn ghost">Buka</button></div>
+    <div class="action-card">Barang Habis? <button class="btn ghost">Ganti/Batal</button></div>
+    <h3 class="section">Chat</h3>
+    <div class="chat-banner">${ic('chat',13)}Chat akan terhapus otomatis 48 jam setelah tugas selesai.</div>
+    <div class="bubble them">Dokumennya sudah saya print, otw ke Syahdan Lt.4</div>
+    <div class="bubble me">Oke ditunggu ya, makasih!</div>
+    <div class="shortcuts">
+      <div class="chip" tabindex="0">${ic('pin',13)}Kirim Lokasi</div><div class="chip" tabindex="0">${ic('camera',13)}Minta Foto</div><div class="chip" tabindex="0">${ic('refresh',13)}Usul Substitusi</div>
+    </div>
+  </div>`,
+
+'my-requests': `
+  <div class="topbar"><div class="icon-btn" tabindex="0" onclick="setScreen('req-home')">${ic('back',16)}</div><div class="greet">Permintaan Saya</div><div style="width:36px"></div></div>
+  <div class="content">
+    <div class="filter-row">
+      <div class="filter-chip active" tabindex="0">Semua</div>
+      <div class="filter-chip" tabindex="0">Open</div>
+      <div class="filter-chip" tabindex="0">In Progress</div>
+      <div class="filter-chip" tabindex="0">Delivered</div>
+      <div class="filter-chip" tabindex="0">Completed</div>
+      <div class="filter-chip" tabindex="0">Disputed</div>
+    </div>
+    <div class="feed-card st-progress" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Print Tugas</b><span class="pill progress">IN PROGRESS</span></div>
+      <div class="route">Anggrek Lt. 3 → Syahdan Lt. 2</div>
+      <div class="feed-bottom"><span class="reward">Rp 5.000</span><span style="color:var(--text-2)">2 jam lalu</span></div>
+    </div>
+    <div class="feed-card st-open" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Beli Makan Siang</b><span class="pill open">OPEN</span></div>
+      <div class="route">Beehive Canteen → Anggrek Lt. 6</div>
+      <div class="feed-bottom"><span class="reward">Rp 6.000</span><span style="color:var(--text-2)">10 menit lalu</span></div>
+    </div>
+    <div class="feed-card st-delivered" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Ambil Paket</b><span class="pill delivered">DELIVERED</span></div>
+      <div class="route">Kantor Pos → Anggrek Lt. 2</div>
+      <div class="feed-bottom"><span class="reward">Rp 4.000</span><span style="color:var(--text-2)">Kemarin</span></div>
+    </div>
+    <div class="feed-card st-delivered" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Print Proposal</b><span class="pill delivered">COMPLETED</span></div>
+      <div class="route">Anggrek Lt. 3 → Syahdan Lt. 1</div>
+      <div class="feed-bottom"><span class="reward">Rp 5.000</span><span style="color:var(--text-2)">2 hari lalu</span></div>
+    </div>
+  </div>`,
+
+'tasks': `
+  <div class="topbar"><div class="icon-btn" tabindex="0" onclick="setScreen('partner-home')">${ic('back',16)}</div><div class="greet">Riwayat Tugas</div><div style="width:36px"></div></div>
+  <div class="content">
+    <div class="filter-row">
+      <div class="filter-chip active" tabindex="0">Semua</div>
+      <div class="filter-chip" tabindex="0">Selesai</div>
+      <div class="filter-chip" tabindex="0">Dibatalkan</div>
+    </div>
+    <div class="feed-card st-delivered" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Antar Dokumen</b><span class="pill delivered">COMPLETED</span></div>
+      <div class="route">Anggrek Lobby → Syahdan Lt. 4</div>
+      <div class="feed-bottom"><span class="reward">Earn Rp 7.000</span><span style="color:var(--text-2)">Hari ini, 10:20</span></div>
+    </div>
+    <div class="feed-card st-delivered" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Beli Kopi</b><span class="pill delivered">COMPLETED</span></div>
+      <div class="route">Beehive → Anggrek Lt. 6</div>
+      <div class="feed-bottom"><span class="reward">Earn Rp 5.000</span><span style="color:var(--text-2)">Kemarin</span></div>
+    </div>
+    <div class="feed-card st-express" tabindex="0">
+      <div class="feed-top"><b style="font-size:13px">Print Tugas</b><span class="pill express">DIBATALKAN</span></div>
+      <div class="route">Syahdan → Anggrek</div>
+      <div class="feed-bottom"><span style="color:var(--text-2)">Item tidak tersedia</span><span style="color:var(--text-2)">3 hari lalu</span></div>
+    </div>
+  </div>`,
+
+'wallet': `
+  <div class="topbar"><div class="greet">Wallet</div></div>
+  <div class="content">
+    <div class="balance-card">
+      <div class="label">Saldo Kamu</div>
+      <div class="amount">Rp 128.500</div>
+      <div class="balance-actions">
+        <button tabindex="0">Top Up</button>
+        <button tabindex="0">Withdraw</button>
+      </div>
+    </div>
+    <h3 class="section">Riwayat Transaksi</h3>
+    <div class="tx-row" tabindex="0">
+      <div class="tx-left"><div class="tx-icon">${ic('check',16)}</div><div><div class="tx-name">Reward — Antar Dokumen</div><div class="tx-date">Hari ini, 10:22</div></div></div>
+      <div class="tx-amount in">+Rp 7.000</div>
+    </div>
+    <div class="tx-row" tabindex="0">
+      <div class="tx-left"><div class="tx-icon">${ic('cart',16)}</div><div><div class="tx-name">Escrow — Beli Kopi</div><div class="tx-date">Kemarin, 14:05</div></div></div>
+      <div class="tx-amount out">-Rp 43.000</div>
+    </div>
+    <div class="tx-row" tabindex="0">
+      <div class="tx-left"><div class="tx-icon">${ic('wallet',16)}</div><div><div class="tx-name">Top Up</div><div class="tx-date">3 hari lalu</div></div></div>
+      <div class="tx-amount in">+Rp 100.000</div>
+    </div>
+  </div>
+  <div class="bottomnav">
+    <div class="navitem" tabindex="0" onclick="setScreen('req-home')"><span class="ic">${ic('home',18)}</span>Home</div>
+    <div class="navitem" tabindex="0" onclick="setScreen('my-requests')"><span class="ic">${ic('list',18)}</span>Requests</div>
+    <div><div class="fab" tabindex="0">${ic('plus',20)}</div></div>
+    <div class="navitem on" tabindex="0"><span class="ic">${ic('wallet',18)}</span>Wallet</div>
+    <div class="navitem" tabindex="0" onclick="setScreen('profile')"><span class="ic">${ic('user',18)}</span>Profile</div>
+  </div>`,
+
+'profile': `
+  <div class="topbar"><div class="greet">Profil</div><div class="icon-btn" tabindex="0" onclick="toggleTheme()">${ic('sun',16)}</div></div>
+  <div class="content" style="text-align:center">
+    <div class="profile-photo"></div>
+    <b style="font-size:15px">Delon</b>
+    <div class="stars">${ic('star',14)}${ic('star',14)}${ic('star',14)}${ic('star',14)}${ic('star',14)}<span>4.9 · 96% completion</span></div>
+    <div style="text-align:left;margin-top:18px">
+      <h3 class="section">Tampilan</h3>
+      <div class="theme-opts">
+        <div class="theme-opt" tabindex="0">${ic('system',13)}System</div>
+        <div class="theme-opt sel" tabindex="0">${ic('sun',13)}Light</div>
+        <div class="theme-opt" tabindex="0">${ic('moon',13)}Dark</div>
+      </div>
+      <h3 class="section">Akun & Keamanan</h3>
+      <div class="settings-row" tabindex="0" onclick="setScreen('verify-ktm')">Verifikasi KTM/Flazz <span>›</span></div>
+      <div class="settings-row" tabindex="0">Pengaturan Notifikasi <span>›</span></div>
+      <div class="settings-row" tabindex="0">Kebijakan Tugas Terlarang <span>›</span></div>
+    </div>
+  </div>
+  <div class="bottomnav">
+    <div class="navitem" tabindex="0" onclick="setScreen('req-home')"><span class="ic">${ic('home',18)}</span>Home</div>
+    <div class="navitem" tabindex="0" onclick="setScreen('my-requests')"><span class="ic">${ic('list',18)}</span>Requests</div>
+    <div><div class="fab" tabindex="0">${ic('plus',20)}</div></div>
+    <div class="navitem" tabindex="0" onclick="setScreen('wallet')"><span class="ic">${ic('wallet',18)}</span>Wallet</div>
+    <div class="navitem on" tabindex="0"><span class="ic">${ic('user',18)}</span>Profile</div>
+  </div>`,
+
+'verify-ktm': `
+  <div class="topbar"><div class="icon-btn" tabindex="0" onclick="setScreen('profile')">${ic('back',16)}</div><div class="greet">Verifikasi KTM/Flazz</div><div style="width:36px"></div></div>
+  <div class="content">
+    <div class="status-badge pending">${ic('clock',13)}Menunggu Verifikasi</div>
+    <div class="upload-card">
+      <div class="up-icon">${ic('camera',20)}</div>
+      <b>Foto KTM / Flazz</b>
+      <p>Pastikan NIM dan foto terlihat jelas</p>
+      <button class="btn ghost" tabindex="0">Ganti Foto</button>
+    </div>
+    <div class="upload-card">
+      <div class="up-icon">${ic('user',20)}</div>
+      <b>Foto Selfie</b>
+      <p>Wajah menghadap kamera, pencahayaan cukup</p>
+      <button class="btn ghost" tabindex="0">Ganti Foto</button>
+    </div>
+    <button class="btn" style="width:100%;padding:12px">Kirim untuk Ditinjau</button>
+  </div>`,
+
+'admin': `
+  <div class="topbar"><div class="greet">Admin Dashboard</div></div>
+  <div class="content">
+    <h3 class="section">Antrian Verifikasi</h3>
+    <div class="verify-card">
+      <div class="verify-photo"></div>
+      <div style="flex:1"><b style="font-size:12.5px">Delon — 280239823</b><div style="font-size:11px;color:var(--text-2)">Selfie match: 98%</div>
+        <div style="display:flex;gap:10px;margin-top:8px"><button class="btn">Approve</button><button class="btn ghost">Reject</button></div>
+      </div>
+    </div>
+    <h3 class="section">Penyelesaian Sengketa</h3>
+    <div class="breakdown">
+      <div class="brow"><span>Escrow</span><span>Rp 43.000</span></div>
+      <div class="brow"><span>Bukti foto</span><span>2 lampiran</span></div>
+      <div class="brow"><span>Log chat</span><span>14 pesan</span></div>
+    </div>
+    <div class="resolution">
+      <button class="btn">Bayar Partner Penuh</button>
+      <button class="btn ghost">Reward Saja / Refund Sisa</button>
+      <button class="btn ghost">Refund Requester Penuh</button>
+    </div>
+  </div>`,
+
+'empty': `
+  <div class="topbar"><div class="greet">Permintaan Sekitar Kampus</div></div>
+  <div class="content" style="height:100%">
+    <div class="empty-wrap">
+      <div class="empty-illustration">${ic('list',36)}</div>
+      <b style="font-size:14px">Belum ada permintaan di sekitarmu</b>
+      <p>Coba lagi beberapa saat lagi, atau perluas radius pencarian untuk melihat lebih banyak permintaan.</p>
+      <button class="btn" style="margin-top:16px">Perluas Radius</button>
+    </div>
+  </div>`,
+
+'timeout': `
+  <div class="topbar"><div class="greet">Direct Offer</div></div>
+  <div class="content" style="height:100%">
+    <div class="empty-wrap">
+      <div class="empty-illustration">${ic('clock',36)}</div>
+      <b style="font-size:14px">Penawaran ini sudah kedaluwarsa</b>
+      <p>Partner favoritmu tidak merespons dalam 5 menit. Broadcast permintaan ini ke partner terdekat lainnya?</p>
+      <button class="btn" style="margin-top:16px">Broadcast ke Partner Terdekat</button>
+    </div>
+  </div>`
+};
+
+let current = 'req-home';
+const tabsEl = document.getElementById('tabs');
+const phone = document.getElementById('phone');
+
+function render(){
+  tabsEl.innerHTML = screens.map(s=>`<div class="tab${s.id===current?' active':''}" tabindex="0" onclick="setScreen('${s.id}')">${s.label}</div>`).join('');
+  phone.innerHTML = `<div class="screen active">${bodies[current]}</div>`;
+}
+function setScreen(id){ current=id; render(); }
+function updateThemeBtn(){
+  const isDark = document.documentElement.getAttribute('data-theme')==='dark';
+  document.getElementById('themeBtn').innerHTML = isDark ? ic('moon',18) : ic('sun',18);
+}
+function toggleTheme(){
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme')==='dark';
+  root.setAttribute('data-theme', isDark?'light':'dark');
+  updateThemeBtn();
+}
+updateThemeBtn();
+render();
+</script>
+</body>
+</html>
